@@ -4,43 +4,45 @@ import *as Yup from "yup"
 import { ToastContainer } from "react-toastify";
 import { toast } from "react-toastify";
 import { Button, Form, Grid, GridColumn, Label, Modal, Icon } from 'semantic-ui-react'
-
-import { useParams } from 'react-router'
-import JobExperianceService from '../../services/jobNoticeService'
+import JobExperianceService from '../../services/jobExperience'
 export default function JobExperianceAdd({employeeCv}) {
     
-    const [jobExperiance, setJobExperiance] = useState({});
+    const [jobExperiance, setJobExperiance] = useState([]);
     
     let jobExperianceService=new JobExperianceService();
     
     useEffect(() => {
     
-        jobExperianceService.getAllEmployeeCvId(2).then((result)=>setJobExperiance(result.data.data));
+        jobExperianceService.getAllByEmployeeCvId(2).then((result)=>setJobExperiance(result.data.data));
     
   
-    },[]);
+    },{});
     
     const { values, errors, handleChange, handleSubmit, touched } = useFormik({
         initialValues: {
 
-            employeeCv:employeeCv?.employee.id,
-            jobplaceName: jobExperiance?.jobplaceName,
-            position: jobExperiance?.position,
-            createdDate: jobExperiance?.createdDate,
-            startDate: jobExperiance?.startDate,
-            finishDate: jobExperiance?.finishDate,
+            employeeCv:employeeCv[0]?.employeecvId?.id,
+            jobplaceName: jobExperiance[0]?.jobplaceName,
+            position: jobExperiance[0]?.position,
+            jobDetail:jobExperiance[0]?.jobDetail,
+            createDate: jobExperiance[0]?.createDate,
+            startDate: jobExperiance[0]?.startDate,
+            finishDate: jobExperiance[0]?.finishDate,
         },
+        
+        enableReinitialize:true,
         validationSchema:
             Yup.object({
                 jobplaceName: Yup.string().required("İş adı boş bırakılamaz!"),
                 position: Yup.string().required("Pozisyon boş bırakılamaz!"),
-                createdDate: Yup.date().required("boş bırakılamaz!"),
+                createDate: Yup.date().required("boş bırakılamaz!"),
                 startDate: Yup.date().required("Başlama tarihi bos bırakılamaz!"),
-                finishDate: Yup.date()
+                finishDate: Yup.date(),
+                jobDetail: Yup.string().required("iş boş bırakılamaz!"),
             }),
             onSubmit: (values) => {
                 
-              jobExperianceService.add(values)
+              jobExperianceService.update(values)
               toast.success("İş deneyimi eklendi");
             }
         });
@@ -49,7 +51,7 @@ export default function JobExperianceAdd({employeeCv}) {
               
                 trigger={<Button floated="right" color="blue" style={{ marginBottom: ".5em", marginRight: ".5em" }}><Icon name="add"></Icon>EKLE</Button>}
             >  
-                <Modal.Header>Eğitim Ekle</Modal.Header>
+                <Modal.Header>İş Deneyimi Ekle</Modal.Header>
                 <Modal.Description>
                     <Form onSubmit={handleSubmit} style={{ marginTop: "1em", marginLeft: "1em", marginBottom: "1em" }}>
                         <Grid stackable>
@@ -79,8 +81,20 @@ export default function JobExperianceAdd({employeeCv}) {
                             </GridColumn>
                             <GridColumn width={7}>
                                 <Form.Field>
-                                    <label>Derece</label>
-                                    <input name="createdDate" placeholder='Mezuniyet yılı' value={values.createdDate} onChange={handleChange} />
+                                    <label>İş Detayı</label>
+                                    <input name="jobDetail" placeholder='İş Detayı' value={values.jobDetail} onChange={handleChange} />
+                                    {
+                                        errors.jobDetail && touched.jobDetail &&
+                                        <Label basic color='red' pointing>
+                                            {errors.jobDetail}
+                                        </Label>
+                                    }
+                                </Form.Field>
+                            </GridColumn>
+                            <GridColumn width={7}>
+                                <Form.Field>
+                                    <label>Oluşturma Tarihi</label>
+                                    <input name="createdDate" placeholder='Mezuniyet yılı' value={values.createDate} onChange={handleChange} />
                                     {
                                         errors.createdDate && touched.createdDate &&
                                         <Label basic color='red' pointing>

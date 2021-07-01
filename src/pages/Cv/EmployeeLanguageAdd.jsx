@@ -16,7 +16,7 @@ export default function EmployeeLanguageAdd({employeeCv}) {
     employeeLanguageService.getAllByEmployeeCvId(2).then((result)=>setLanguage(result.data.data))
     }, [])
   
-    console.log(employeeCv)
+    //console.log(employeeCv)
     const { values, errors, handleChange, handleSubmit, touched } = useFormik({
         initialValues: {
            
@@ -25,6 +25,7 @@ export default function EmployeeLanguageAdd({employeeCv}) {
             level:language?.level,
          
         },
+        enableReinitialize:true,
         validationSchema:
             Yup.object({
                 language: Yup.string().required("Dil ismi boş bırakalımaz!"),
@@ -40,9 +41,10 @@ export default function EmployeeLanguageAdd({employeeCv}) {
         return (<div>    <ToastContainer position="bottom-right"/>
              <Modal
               
-                trigger={<Button floated="right" color="blue" style={{ marginBottom: ".5em", marginRight: ".5em" }}><Icon name="add"></Icon>EKLE</Button>}
+                trigger={<Button floated="right" color="blue" style={{ marginBottom: ".5em", marginRight: ".5em" }}><Icon name="add">
+                    </Icon>EKLE</Button>}
             >  
-                <Modal.Header>Eğitim Ekle</Modal.Header>
+                <Modal.Header>Dil bilgisi Güncelle</Modal.Header>
                 <Modal.Description>
                     <Form onSubmit={handleSubmit} style={{ marginTop: "1em", marginLeft: "1em", marginBottom: "1em" }}>
                         <Grid stackable>

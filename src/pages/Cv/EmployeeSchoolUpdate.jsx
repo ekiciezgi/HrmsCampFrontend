@@ -6,7 +6,7 @@ import { Button, Form, Grid, GridColumn, Label, Modal, Icon } from 'semantic-ui-
 import EmployeeCvService from '../../services/employeeCvService'
 import { useParams } from 'react-router'
 import EmployeeSchoolService from '../../services/employeeSchoolService'
-export default function EmployeeSchoolUpdate({ education }) {
+export default function EmployeeSchoolUpdate({employeeCv}) {
     
     const [employeeSchool, setEmployeeSchool] = useState([]);
 
@@ -19,7 +19,7 @@ export default function EmployeeSchoolUpdate({ education }) {
     const { values, errors, handleChange, handleSubmit, touched } = useFormik({
         initialValues: {
             id:employeeSchool[0]?.id,
-            employeeCvId:education?.employee?.id,
+            employeeCvId:employeeCv?.employee?.id,
             schoolName: employeeSchool[0]?.schoolName,
             schooldepartment:employeeSchool[0]?.schooldepartment,
             graduationYear:employeeSchool[0]?.graduationYear,
@@ -44,7 +44,7 @@ export default function EmployeeSchoolUpdate({ education }) {
               toast.success("Eğitim güncellendi");
             }
         });
-        //console.log(values)
+       // console.log(values)
         return (<div>
              <Modal
               

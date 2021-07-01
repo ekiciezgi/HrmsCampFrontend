@@ -1,7 +1,7 @@
 import axios from "axios"
 export default class JobExperienceService{
     
-    getAllEmployeeCvId(id)
+    getAllByEmployeeCvId(id)
     {
         return axios.get("http://localhost:8080/api/jobExperience/getAllByEmployeeCv_id?id="+id);
     }
@@ -9,9 +9,9 @@ export default class JobExperienceService{
         return axios.post("http://localhost:8080/api/jobExperience/add",values);
     }
     update(values){
-        return axios.post("http://localhost:8080/api/jobExperience/updateCv",values);
+        return axios.post("http://localhost:8080/api/jobExperience/update",values);
     }
    getall(){
-    return axios.post("http://localhost:8080/api/jobExperience/getAll");
+    return axios.get("http://localhost:8080/api/jobExperience/getAll");
    }
 }

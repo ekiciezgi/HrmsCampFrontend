@@ -15,7 +15,6 @@ import EmployeeLanguageService from "../services/employeeLanguageService"
 export default function EmployeeCvCard() {
 
     const [cv, setCvs] = useState(null)
-    
     const [employeeSchool, setEmployeeSchool] = useState(null)
     const [language, setLanguage] = useState(null)
     const [jobE, setJobE] = useState(null)
@@ -30,7 +29,7 @@ export default function EmployeeCvCard() {
          employeeLanguageService.getAllEmployeeCvId(2).then((result)=>setLanguage(result.data.data))
 
          let jobExperianceService=new JobExperienceService();
-        jobExperianceService.getAllEmployeeCvId(2).then((result)=>setJobE(result.data.data))
+        jobExperianceService.getAllByEmployeeCvId(2).then((result)=>setJobE(result.data.data))
     }, []);
  
     console.log(employeeSchool)
@@ -60,9 +59,8 @@ export default function EmployeeCvCard() {
                                     <Card.Content><b>Soyadı: </b>{cv?.employee.lastName}</Card.Content>
                                     <Card.Content><b>Doğum Yılı: </b>{cv?.employee.birthday}</Card.Content>
                                     <Card.Content><b>Email: </b>{cv?.employee.email}</Card.Content>
-                                </Card>
-
-                                {employeeSchool.map((school)=>(
+                                </Card> 
+                                {employeeSchool?.map((school)=>(
                               <Card fluid style={{ marginTop: "1em" }} color="red">
                               <Card.Content header='Okul Bilgisi' />
                               <Card.Content><b>Okul Adı: </b>{school?.schoolName}</Card.Content> 
@@ -75,7 +73,7 @@ export default function EmployeeCvCard() {
       
                           </Card>
                           ))}
-                               {language.map((lan)=>(
+                               {language?.map((lan)=>(
                                      <Card fluid style={{ marginTop: "1em" }} color="red">
                                      <Card.Content header='Dil  Bilgisi' />
                                      <Card.Content><b>Dil Adı: </b>{lan?.language}</Card.Content> 
@@ -86,7 +84,7 @@ export default function EmployeeCvCard() {
              
                                  </Card>
                                ))}
-                               {jobE.map((job)=>(
+                               {jobE?.map((job)=>(
                                      <Card fluid style={{ marginTop: "1em" }} color="red">
                                      <Card.Content header='Deneyim' />
                                      <Card.Content><b>İş Adı: </b>{job?.jobplaceName}</Card.Content> 

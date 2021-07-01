@@ -14,19 +14,20 @@ export default function EmployeeLanguageUpdate({employeeCv}) {
 
     useEffect(() => {
     
-    employeeLanguageService.getAllEmployeeCvId(2).then((result)=>setEmployeeSchool(result.data.data));
+    employeeLanguageService.getAllByEmployeeCvId(2).then((result)=>setEmployeeSchool(result.data.data));
     
   
     },[]);
     
     const { values, errors, handleChange, handleSubmit, touched } = useFormik({
         initialValues: {
-            id:employeeCv?.id,
-            employeeCv:employeeCv?.employeeCvId.id,
-            language: employeeLanguage?.language,
-            level:employeeLanguage?.level,
+            id:employeeLanguage[0]?.id,
+            employeeCv:employeeCv?.employee?.id,
+            language: employeeLanguage[0]?.language,
+            level:employeeLanguage[0]?.level,
          
         },
+        enableReinitialize:true,
         validationSchema:
             Yup.object({
                 language: Yup.string().required("Dil ismi boş bırakalımaz!"),
@@ -38,12 +39,13 @@ export default function EmployeeLanguageUpdate({employeeCv}) {
               toast.success("Eğitim güncellendi");
             }
         });
+   
         return (<div>
              <Modal
               
                 trigger={<Button floated="right" color="blue" style={{ marginBottom: ".5em", marginRight: ".5em" }}><Icon name="add"></Icon>Güncelle</Button>}
             >  
-                <Modal.Header>Eğitim Ekle</Modal.Header>
+                <Modal.Header>Dil Ekle</Modal.Header>
                 <Modal.Description>
                    
                 <Form onSubmit={handleSubmit} style={{ marginTop: "1em", marginLeft: "1em", marginBottom: "1em" }}>
